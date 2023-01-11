@@ -1,0 +1,13 @@
+D:\Apps\uwamp\bin\database\mysql-8.0.22\bin>mysqldump 
+	--result-file="D:\Apps\uwamp\www\la-garenne\cp5\business-terminal.sql" 
+	--user=root 
+	--password 
+	--host=127.0.0.1 
+	--port=3306 
+	--default-character-set=utf8 
+	--single-transaction=true 
+	--routines 
+	--events 
+	--databases "business"
+
+Enter password: ****
