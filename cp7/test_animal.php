@@ -1,4 +1,5 @@
 <?php
+// Inclusion de la classe
 require_once 'class/animal.class.php';
 
 // Test 1 : instanciation
