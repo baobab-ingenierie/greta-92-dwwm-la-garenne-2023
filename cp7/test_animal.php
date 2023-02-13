@@ -1,12 +1,14 @@
 <?php
 // Inclusion de la classe
 require_once 'class/animal.class.php';
+require_once 'class/human.class.php';
 
-// Test 1 : instanciation
+// Test 1 : instanciation ANIMAL
 $animal1 = new Animal();
 $animal2 = new Animal();
 var_dump($animal1);
 var_dump($animal2);
+echo '<p>Nb instances : ' . Animal::countInstances();
 
 // Test 2 : assignation valeur à attribut
 // $animal1->name = 'Milou';
@@ -31,6 +33,7 @@ var_dump($animal3);
 $animal4 = new Animal('Titi', .15, false);
 $animal4->setDob('1954-01-11');
 var_dump($animal4);
+echo '<p>Nb instances : ' . Animal::countInstances();
 
 // Test 5 : méthode EAT
 $animal5 = new Animal('Sly', 5, false);
@@ -39,5 +42,21 @@ $animal5->eat($animal4);
 var_dump($animal4);
 var_dump($animal5);
 
-// Test 6  : méthode GETAGE
-echo $animal4->getName() . ' est agé de ' . $animal4->getAge() . ' ans.';
+// Test 6 : méthode GETAGE
+echo $animal4->getName() . ' était agé de ' . $animal4->getAge() . ' ans.';
+unset($animal4);
+echo '<p>Nb instances : ' . Animal::countInstances();
+
+// Test 7 : utilisation constantes de classe
+echo '<p>' . Animal::ENV_TERRE;
+
+// Test 8 : methode MOVE
+$animal6 = new Animal('Donald', 6.3, false);
+$animal6->setType('aqua');
+echo '<p>' . $animal6->move();
+echo '<p>' . $animal6->move2();
+echo '<p>' . $animal6->move3();
+
+// Test 9 : Instanciation HUMAN
+$human1 = new Human();
+var_dump($human1);

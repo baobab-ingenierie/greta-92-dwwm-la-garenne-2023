@@ -12,7 +12,7 @@ Projet "fil rouge" réalisé du **4 janvier 2023 au 27 juin 2023** avec l'équip
 - [ ] CP4 Réaliser une interface utilisateur avec une solution de gestion de contenu ou e-commerce
 - [x] CP5 Créer une base de données 
 - [ ] CP6 Développer les composants d’accès aux données 
-- [ ] CP7 Développer la partie back-end d’une application web ou web mobile 
+- [x] CP7 Développer la partie back-end d’une application web ou web mobile 
 - [ ] CP8 Elaborer et mettre en oeuvre des composants dans une application de gestion de contenu ou e-commerce
 - [ ] Accompagnement et suivi de projets
 

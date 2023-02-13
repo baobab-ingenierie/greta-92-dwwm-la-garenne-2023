@@ -5,13 +5,23 @@
  */
 class Animal
 {
-    // Attributs publics
+    // Constantes de classe
+    const ENV_AIR = 'air';
+    const ENV_EAU = 'eau';
+    const ENV_TERRE = 'terre';
+    const LIST_AIR = 'air,aérien,volant,atmosphère,ciel';
+    const LIST_EAU = 'eau,lac,lacustre,mer,marin,océan,rivière,fleuve,aquarium,aquatique';
+    const LIST_TERRE = 'terre,montagne,arbre,plaine,colline,savane,grotte';
 
     // Attributs privés
     private $name;
     private $dob;
-    private $weight;
+    protected $weight;
     private $female;
+    private $type = '';
+
+    // Attribut statique
+    private static $nb = 0;
 
     // Constructeur
     public function __construct(string $newName = '', float $newWeight = 0, bool $newFemale = false)
@@ -19,6 +29,13 @@ class Animal
         $this->setName($newName);
         $this->setWeight($newWeight);
         $this->setFemale($newFemale);
+        self::$nb++;
+    }
+
+    // Destructeur
+    public function __destruct()
+    {
+        self::$nb--;
     }
 
     // Mutateurs (ou setters)
@@ -55,7 +72,23 @@ class Animal
         }
     }
 
+    public function setType(string $newType): void
+    {
+        if (in_array($newType, explode(',', self::LIST_AIR))) {
+            $this->type = self::ENV_AIR;
+        } else if (in_array($newType, explode(',', self::LIST_EAU))) {
+            $this->type = self::ENV_EAU;
+        } else if (in_array($newType, explode(',', self::LIST_TERRE))) {
+            $this->type = self::ENV_TERRE;
+        };
+    }
+
     // Accesseurs (ou getters)
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
     public function getName(): string
     {
         return $this->name;
@@ -98,5 +131,46 @@ class Animal
         $bday = new DateTime($this->getDob());
         $diff = $bday->diff($today);
         return $diff->y;
+    }
+
+    public function move(): string
+    {
+        if ($this->getType() === self::ENV_AIR) {
+            return 'voler';
+        } else if ($this->getType() === self::ENV_EAU) {
+            return 'nager';
+        } else if ($this->getType() === self::ENV_TERRE) {
+            return 'marcher';
+        } else {
+            return 'se déplacer';
+        }
+    }
+
+    public function move2(): string
+    {
+        switch (true) {
+            case $this->getType() === self::ENV_AIR:
+                return 'voler';
+                break;
+            case $this->getType() === self::ENV_EAU:
+                return 'nager';
+                break;
+            case $this->getType() === self::ENV_TERRE:
+                return 'marcher';
+                break;
+            default:
+                return 'se déplacer';
+        }
+    }
+
+    public function move3(): string
+    {
+        // ternaire + nb instances
+        return $this->getType() === self::ENV_AIR ?  'voler' : ($this->getType() === self::ENV_EAU ?  'nager' : ($this->getType() === self::ENV_TERRE ? 'marcher' : 'se déplacer'));
+    }
+
+    public static function countInstances(): int
+    {
+        return self::$nb;
     }
 }
