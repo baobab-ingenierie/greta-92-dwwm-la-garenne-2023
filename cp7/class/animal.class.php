@@ -15,13 +15,13 @@ class Animal
 
     // Attributs privés
     private $name;
-    private $dob;
+    protected $dob;
     protected $weight;
     private $female;
     private $type = '';
 
     // Attribut statique
-    private static $nb = 0;
+    protected static $nb = 0;
 
     // Constructeur
     public function __construct(string $newName = '', float $newWeight = 0, bool $newFemale = false)

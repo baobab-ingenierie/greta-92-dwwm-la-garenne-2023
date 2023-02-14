@@ -58,5 +58,10 @@ echo '<p>' . $animal6->move2();
 echo '<p>' . $animal6->move3();
 
 // Test 9 : Instanciation HUMAN
-$human1 = new Human();
+$human1 = new Human('Lesly', '1945-05-08');
 var_dump($human1);
+
+// Test 10 : Héritage
+$human2 = new Human('Hérold Jean-François', '1998-07-12');
+$human2->setWeight(79.8);
+var_dump($human2);
