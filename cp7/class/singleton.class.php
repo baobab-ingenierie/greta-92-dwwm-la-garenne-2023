@@ -8,15 +8,16 @@
 class Singleton
 {
     // Attributs privés
-    private static string $host = '';
-    private static int $port = 0;
-    private static string $dbname = '';
-    private static string $user = '';
-    private static string $password = '';
-    private static array $options = array(
+    private static $host = '';
+    private static $port = 0;
+    private static $dbname = '';
+    private static $user = '';
+    private static $password = '';
+    private static $options = array(
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     );
+    private static $cnn = null;
 
     /**
      * Constructeur laissé vide volontairement !
@@ -56,5 +57,53 @@ class Singleton
     public static function hasConfiguration(): bool
     {
         // true si host et dbname pas vide et port <> 0
+        if (self::$host === '' || self::$port === 0 || self::$dbname === '') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Renvoie un objet PDO de type connexion à la BDD
+     * @author Lesly LODIN
+     * @version 1.0.0
+     * @return PDO - connexion à la BDD
+     */
+    public static function getPDO(): PDO
+    {
+        // Si une connexion n'existe pas, alors on la crée
+        if (!self::$cnn) {
+            // Sinon, on la génère
+            if (!self::hasConfiguration()) {
+                // Si aucune configuration n'existe
+                throw new Exception(__CLASS__ . ' : Vous devez d\'abord définir une configuration (host, port, dbname).');
+            } else {
+                // Sinon, on crée une nouvelle connexion
+                try {
+                    $dsn = 'mysql:host=' . self::$host . ';port=' . self::$port . ';dbname=' . self::$dbname . ';charset=utf8';
+                    self::$cnn = new PDO($dsn, self::$user, self::$password, self::$options);
+                } catch (PDOException $err) {
+                    throw new Exception($err->getMessage());
+                }
+            }
+        }
+        return self::$cnn;
+    }
+
+    /**
+     * Destructeur de la classe
+     */
+    public function __destruct()
+    {
+        if (self::$cnn) self::$cnn = null;
+    }
+
+    /**
+     * Interdit le clonage de la classe : une seule connexion
+     */
+    public function __clone()
+    {
+        throw new Exception(__CLASS__ . ' : Clonage de cette classe interdit.');
     }
 }
