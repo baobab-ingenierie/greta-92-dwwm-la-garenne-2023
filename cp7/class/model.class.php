@@ -18,6 +18,7 @@ class Model extends Singleton
      * Constructeur de la classe 
      * @param string $table nom de la table à manipuler
      */
+
     public function __construct(string $newHost, int $newPort, string $newDbname, string $newUser, string $newPassword, string $newTable, ?array $newOptions = array())
     {
         parent::setConfiguration($newHost, $newPort, $newDbname, $newUser, $newPassword, $newOptions);
@@ -44,10 +45,11 @@ class Model extends Singleton
     /**
      * Renvoie une seule ligne de la table suite à une requête
      * SELECT sous la forme d'un tableau associatif
-     * @param string $id - nom de la colonne clé primaire
-     * @param string|int $val - valeur associé à la colonne PK
-     * @return array - résultat de la requête SELECT
+     * @param string $id nom de la colonne clé primaire
+     * @param string|int $val valeur associé à la colonne PK
+     * @return array résultat de la requête SELECT
      */
+
     public function getRow(string $id, $val): array
     {
         try {
@@ -61,10 +63,11 @@ class Model extends Singleton
 
     /**
      * Supprime une seule ligne de la table en cours 
-     * @param string $id - nom de la colonne clé primaire
-     * @param string|int $val - valeur associé à la colonne PK
-     * @return int - nombre de lignes concernées par la suppression
+     * @param string $id nom de la colonne clé primaire
+     * @param string|int $val valeur associé à la colonne PK
+     * @return int nombre de lignes concernées par la suppression
      */
+
     public function delete(string $id, $val): int
     {
         try {
@@ -79,9 +82,10 @@ class Model extends Singleton
 
     /**
      * Insère une seule ligne dans la table en cours
-     * @param array $post - tableau clés/valeurs de type $_POST
-     * @return int - nombre de lignes concernées par l'insertion
+     * @param array $post tableau clés/valeurs de type $_POST
+     * @return int nombre de lignes concernées par l'insertion
      */
+
     public function insert(array $post = array()): int
     {
         if (empty($post)) {
@@ -108,9 +112,10 @@ class Model extends Singleton
 
     /**
      * Insère une seule ligne dans la table en cours
-     * @param array $post - tableau clés/valeurs de type $_POST
-     * @return int - nombre de lignes concernées par l'insertion
+     * @param array $post tableau clés/valeurs de type $_POST
+     * @return int nombre de lignes concernées par l'insertion
      */
+
     public function insert2(array $post = array()): int
     {
         if (empty($post)) {
@@ -129,11 +134,12 @@ class Model extends Singleton
 
     /**
      * Met à jour une seule ligne dans la table en cours
-     * @param array $post - tableau clés/valeurs de type $_POST
-     * @param string $id - nom de la colonne clé primaire
-     * @param string|int $val - valeur associé à la colonne PK
-     * @return int - nombre de lignes concernées par la mise à jour
+     * @param array $post tableau clés/valeurs de type $_POST
+     * @param string $id nom de la colonne clé primaire
+     * @param string|int $val valeur associé à la colonne PK
+     * @return int nombre de lignes concernées par la mise à jour
      */
+
     public function update(array $post = array(), string $id, $valId): int
     {
         if (empty($post)) {
@@ -156,6 +162,39 @@ class Model extends Singleton
             } catch (PDOException $err) {
                 throw new Exception($err->getMessage());
             }
+        }
+    }
+
+    /**
+     * Renvoie toutes les lignes de la table suite à une requête
+     * SELECT sous la forme d'un tableau HTML
+     * @return string data sous forme de tableau HTML
+     */
+
+    public function getHtmlTable(): string
+    {
+        try {
+            // Exécute la requête
+            $qry = $this->db->query('SELECT * FROM ' . $this->table);
+            // Affiche le nom des colonnes
+            $html = '<table class="table table-dark table-striped table-hover"><thead><tr>';
+            for ($i = 0; $i < $qry->columnCount(); $i++) {
+                $meta = $qry->getColumnMeta($i);
+                $html .= '<th>' . $meta['name'] . '</th>';
+            }
+            $html .= '</tr></thead><tbody>';
+            // Affiche les data
+            while ($row = $qry->fetch()) {
+                $html .= '<tr>';
+                foreach ($row as $val) {
+                    $html .= '<td>' . $val . '</td>';
+                }
+                $html .= '</tr>';
+            }
+            $html .= '</tbody></table>';
+            return $html;
+        } catch (PDOException $err) {
+            throw new Exception($err->getMessage());
         }
     }
 }

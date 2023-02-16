@@ -49,3 +49,6 @@ echo '<p>Nb lignes modifiées : ' . $table1->update(array(
     'fname' => 'Albert',
     'email' => 'bebert@greta.fr'
 ), 'id_own', 11);
+
+// Test 9 : getHtmlTable
+echo $table1->getHtmlTable();

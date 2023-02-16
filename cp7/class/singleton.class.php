@@ -23,6 +23,7 @@ class Singleton
      * Constructeur laissé vide volontairement !
      * On ne veut pas créer plus d'une instance de cette classe.
      */
+
     public function __construct()
     {
     }
@@ -38,6 +39,7 @@ class Singleton
      * @param string $newPassword - mot de passe de connexion
      * @param array $newOptions - options de connexion
      */
+
     public static function setConfiguration(string $newHost, int $newPort, string $newDbname, string $newUser, string $newPassword, ?array $newOptions = array())
     {
         self::$host = $newHost;
@@ -50,7 +52,7 @@ class Singleton
 
     /**
      * Valide si une configuration est définie ou non
-     * @return bool - true si on a une config, false sinon
+     * @return bool true si on a une config, false sinon
      * 
      */
 
@@ -70,6 +72,7 @@ class Singleton
      * @version 1.0.0
      * @return PDO - connexion à la BDD
      */
+
     public static function getPDO(): PDO
     {
         // Si une connexion n'existe pas, alors on la crée
@@ -95,6 +98,7 @@ class Singleton
     /**
      * Supprime la connexion 
      */
+
     public static function disconnect()
     {
         self::$cnn = null;
@@ -103,6 +107,7 @@ class Singleton
     /**
      * Destructeur de la classe
      */
+
     public function __destruct()
     {
         if (self::$cnn) self::$cnn = null;
@@ -111,6 +116,7 @@ class Singleton
     /**
      * Interdit le clonage de la classe : une seule connexion
      */
+    
     public function __clone()
     {
         throw new Exception(__CLASS__ . ' : Clonage de cette classe interdit.');
