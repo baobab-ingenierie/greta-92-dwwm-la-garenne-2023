@@ -58,4 +58,22 @@ class Model extends Singleton
             throw new Exception($err->getMessage());
         }
     }
+
+    /**
+     * Supprime une seule ligne de la table en cours 
+     * @param string $id - nom de la colonne clé primaire
+     * @param string|int $val - valeur associé à la colonne PK
+     * @return int - nombre de lignes concernées par la suppression
+     */
+    public function delete(string $id, $val): int
+    {
+        try {
+            $sql = 'DELETE FROM ' . $this->table . ' WHERE ' . $id . ' = :id';
+            $qry = $this->db->prepare($sql);
+            $qry->execute(array(':id' => $val));
+            return $qry->rowCount();
+        } catch (PDOException $err) {
+            throw new Exception($err->getMessage());
+        }
+    }
 }

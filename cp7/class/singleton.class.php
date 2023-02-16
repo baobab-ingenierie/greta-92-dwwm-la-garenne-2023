@@ -81,7 +81,8 @@ class Singleton
             } else {
                 // Sinon, on crée une nouvelle connexion
                 try {
-                    $dsn = 'mysql:host=' . self::$host . ';port=' . self::$port . ';dbname=' . self::$dbname . ';charset=utf8';
+                    // $dsn = 'mysql:host=' . self::$host . ';port=' . self::$port . ';dbname=' . self::$dbname . ';charset=utf8';
+                    $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8', self::$host, self::$port, self::$dbname);
                     self::$cnn = new PDO($dsn, self::$user, self::$password, self::$options);
                 } catch (PDOException $err) {
                     throw new Exception($err->getMessage());
@@ -89,6 +90,14 @@ class Singleton
             }
         }
         return self::$cnn;
+    }
+
+    /**
+     * Supprime la connexion 
+     */
+    public static function disconnect()
+    {
+        self::$cnn = null;
     }
 
     /**
